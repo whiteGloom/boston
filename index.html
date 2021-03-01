@@ -33,7 +33,7 @@
 
             function init() {
               createHeader(nodes.length, 'Some article');
-              createParagraph(nodes.length, 'Hi there. I\'m wGloom.');
+              createParagraph(nodes.length, 'Was there not one way to grasp the sky?');
             }
 
             function createNode(position, node, text) {
@@ -104,7 +104,7 @@
                 e.preventDefault();
                 var oldPosition = nodes.indexOf(activeNode);
                 deleteNode(activeNode);
-                nodes[oldPosition - 1].focus();
+                nodes[!oldPosition ? 0 : oldPosition - 1].focus();
               }
 
               if (e.key === 'Enter') {
