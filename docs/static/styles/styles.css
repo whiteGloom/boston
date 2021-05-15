@@ -7,9 +7,29 @@ body {
     font-family: sans-serif;
 }
 
-.main {
+#main {
     width: 100%;
     max-width: 1000px;
     padding: 80px 20px 40px;
     box-sizing: border-box;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    outline: none;
+}
+
+#main._highlight-lines p,
+#main._highlight-lines h1,
+#main._highlight-lines h2,
+#main._highlight-lines h3,
+#main._highlight-lines h4,
+#main._highlight-lines h5,
+#main._highlight-lines h6 {
+    outline: black 1px dashed;
 }
