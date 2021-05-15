@@ -24,12 +24,51 @@ h6 {
     outline: none;
 }
 
-#main._highlight-lines p,
-#main._highlight-lines h1,
-#main._highlight-lines h2,
-#main._highlight-lines h3,
-#main._highlight-lines h4,
-#main._highlight-lines h5,
-#main._highlight-lines h6 {
+#canvas._highlight-lines p,
+#canvas._highlight-lines h1,
+#canvas._highlight-lines h2,
+#canvas._highlight-lines h3,
+#canvas._highlight-lines h4,
+#canvas._highlight-lines h5,
+#canvas._highlight-lines h6 {
     outline: black 1px dashed;
+}
+
+#header {
+    padding: 5px;
+    border-bottom: black 1px solid;
+}
+
+.header-button {
+    margin-left: 30px;
+}
+
+.header-button:first-child {
+    margin-left: 0;
+}
+
+.header-button a, span {
+    color: black;
+    text-decoration: underline;
+}
+
+.header-button button {
+    border: none;
+    background: transparent;
+    padding: 0;
+    text-decoration: underline;
+    font-size: medium;
+    cursor: pointer;
+}
+
+.header-button * {
+    margin-left: 5px;
+}
+
+.header-button *:first-child {
+    margin-left: 0;
+}
+
+#loadFromFileButton._blocked {
+    cursor: not-allowed;
 }
