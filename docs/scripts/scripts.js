@@ -9,11 +9,36 @@ function scripts() {
   init();
 
   function init() {
-    createHeader(nodes.length, 'Some article');
+    createHeader(nodes.length, 'Prince of Nothing');
     createParagraph(nodes.length, 'Was there not one way to grasp the sky?');
 
-    updateExportableContent();
+    initProjectTitle();
     initSaveSystem();
+    updateExportableContent();
+  }
+
+  function initProjectTitle() {
+    const projectTitleElement = document.getElementById('projectTitle');
+    projectTitleElement.addEventListener('keydown', onHeaderKeydown);
+
+    setProjectTitle('CN: Boston');
+  }
+
+  function onHeaderKeydown() {
+    const projectTitleElement = document.getElementById('projectTitle');
+    requestAnimationFrame(() => {
+      setProjectTitle(projectTitleElement.textContent, true);
+      requestAnimationFrame(updateExportableContent);
+    });
+  }
+
+  function setProjectTitle(text, ignoreHeaderTagUpdate) {
+    document.title = text || 'No title provided';
+
+    if (!ignoreHeaderTagUpdate) {
+      const projectTitleElement = document.getElementById('projectTitle');
+      projectTitleElement.textContent = text;
+    }
   }
 
   function initSaveSystem() {
@@ -32,7 +57,9 @@ function scripts() {
       URL.revokeObjectURL(fileToExport);
     }
 
+    const projectTitleElement = document.getElementById('projectTitle');
     let objectToExport = {
+      title: projectTitleElement.textContent,
       nodesInfos: nodes.map((node) => ({ tagName: node.tagName, text: node.textContent }))
     };
 
@@ -101,7 +128,11 @@ function scripts() {
           break;
       }
     });
+
+    setProjectTitle(parsedJson.title);
+
     render();
+    requestAnimationFrame(updateExportableContent);
   }
 
   function addNode(node, position, disableRender) {
@@ -244,7 +275,7 @@ function scripts() {
         ground.classList.remove('_highlight-lines');
       }
 
-      updateExportableContent();
+      requestAnimationFrame(updateExportableContent);
     });
   }
 }

@@ -10,7 +10,7 @@ body {
 #main {
     width: 100%;
     max-width: 1000px;
-    padding: 80px 20px 40px;
+    padding: 40px 20px 40px;
     box-sizing: border-box;
 }
 
@@ -35,24 +35,27 @@ h6 {
 }
 
 #header {
-    padding: 5px;
     border-bottom: black 1px solid;
 }
 
-.header-button {
+#controlsPanel {
+    padding: 5px;
+}
+
+.control-button {
     margin-left: 30px;
 }
 
-.header-button:first-child {
+.control-button:first-child {
     margin-left: 0;
 }
 
-.header-button a, span {
+.control-button a, span {
     color: black;
     text-decoration: underline;
 }
 
-.header-button button {
+.control-button button {
     border: none;
     background: transparent;
     padding: 0;
@@ -61,14 +64,19 @@ h6 {
     cursor: pointer;
 }
 
-.header-button * {
+.control-button * {
     margin-left: 5px;
 }
 
-.header-button *:first-child {
+.control-button *:first-child {
     margin-left: 0;
 }
 
 #loadFromFileButton._blocked {
     cursor: not-allowed;
+}
+
+#pageTitle {
+    font-size: xxx-large;
+    margin: 10px 0;
 }

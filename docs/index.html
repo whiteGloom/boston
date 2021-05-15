@@ -8,13 +8,16 @@
     <body>
         <div id="main">
             <header id="header">
-                <span class="header-button">
-                    <a id="exportButton" class="header-button" type="application/json">Save in file</a>
-                </span>
-                <span class="header-button">
-                    <button id="loadFromFileButton">Load from file</button>
-                    <input id="loadFromFileInput" type="file"/>
-                </span>
+                <div id="controlsPanel">
+                    <span class="control-button">
+                        <a id="exportButton" type="application/json">Save in file</a>
+                    </span>
+                    <span class="control-button">
+                        <button id="loadFromFileButton">Load from file</button>
+                        <input id="loadFromFileInput" type="file"/>
+                    </span>
+                </div>
+                <h1 id="projectTitle" contenteditable="true"></h1>
             </header>
 
             <div id="canvas"></div>
