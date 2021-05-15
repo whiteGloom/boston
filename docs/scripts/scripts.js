@@ -32,34 +32,19 @@ function scripts() {
       URL.revokeObjectURL(fileToExport);
     }
 
-    let encodedText = '';
+    let objectToExport = {
+      nodesInfos: nodes.map((node) => ({ tagName: node.tagName, text: node.textContent }))
+    };
 
-    nodes.forEach((node) => {
-      let nodeTag;
-      const nodeHtmlTagName = node.tagName;
-      switch (nodeHtmlTagName) {
-        case 'P': nodeTag = 'bstntagname=p_'; break;
-        case 'H1': nodeTag = 'bstntagname=h1_'; break;
-        case 'H2': nodeTag = 'bstntagname=h2_'; break;
-        case 'H3': nodeTag = 'bstntagname=h3_'; break;
-        case 'H4': nodeTag = 'bstntagname=h4_'; break;
-        case 'H5': nodeTag = 'bstntagname=h5_'; break;
-        case 'H6': nodeTag = 'bstntagname=h6_'; break;
-        default: nodeTag = '';
-      }
-
-      encodedText += `${nodeTag}${node.textContent}`;
-    });
-
-    fileToExport = new File([encodedText], 'exported.txt', { type: "text/plain" });
+    fileToExport = new File([JSON.stringify(objectToExport)], 'exported.json', { type: 'application/json' });
 
     updateSaveToFileButton();
   }
 
   function updateSaveToFileButton() {
-    const linker = document.getElementById("export");
-    linker.setAttribute('href', URL.createObjectURL(fileToExport));
-    linker.download = fileToExport.name;
+    const exportButton = document.getElementById('exportButton');
+    exportButton.setAttribute('href', URL.createObjectURL(fileToExport));
+    exportButton.download = fileToExport.name;
   }
 
   function updateLoadFromButton() {
@@ -98,51 +83,25 @@ function scripts() {
   }
 
   function parseLoadFromFileResult(response) {
-    let parsedBlocks = [];
-    let remainingText = response;
+    const parsedJson = JSON.parse(response);
 
-    let indexOfTag = remainingText.indexOf('bstntagname=');
-    parseBlocks();
-
-    function parseBlocks() {
-      let blockValue;
-      const tagValue = remainingText.slice(12, remainingText.indexOf('_'));
-
-      remainingText = remainingText.slice(remainingText.indexOf('_') + 1);
-      indexOfTag = remainingText.indexOf('bstntagname=');
-      if (indexOfTag > -1) {
-        blockValue = remainingText.slice(0, indexOfTag);
-        remainingText = remainingText.slice(indexOfTag);
-        parsedBlocks.push([tagValue, blockValue]);
-        parseBlocks();
-      } else {
-        blockValue = remainingText;
-        parsedBlocks.push([tagValue, blockValue]);
-        handleParsedTags();
+    deleteAllNodes(true);
+    parsedJson.nodesInfos.forEach((info) => {
+      switch (info.tagName) {
+        case 'P':
+          createParagraph(undefined, info.text, true)
+          break;
+        case 'H1':
+        case 'H2':
+        case 'H3':
+        case 'H4':
+        case 'H5':
+        case 'H6':
+          createHeader(undefined, info.text, info.tagName[1], true)
+          break;
       }
-    }
-
-    function handleParsedTags() {
-      deleteAllNodes(true);
-
-      parsedBlocks.forEach((block) => {
-        switch (block[0]) {
-          case 'p':
-            createParagraph(undefined, block[1], true)
-            break;
-          case 'h1':
-          case 'h2':
-          case 'h3':
-          case 'h4':
-          case 'h5':
-          case 'h6':
-            createHeader(undefined, block[1], block[0][1], true)
-            break;
-        }
-      });
-
-      render();
-    }
+    });
+    render();
   }
 
   function addNode(node, position, disableRender) {
@@ -157,8 +116,8 @@ function scripts() {
   }
 
   function deleteAllNodes(disableRender) {
-    const snapshot = [...nodes];
-    snapshot.forEach((node) => {
+    const nodesSnapshot = [...nodes];
+    nodesSnapshot.forEach((node) => {
       deleteNode(node, disableRender);
     })
   }
